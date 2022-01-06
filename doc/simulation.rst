@@ -81,7 +81,7 @@ Launch rviz
 The next tool we will encounter is :roswiki:`rviz`. Although superficially similar in appearance to Gazebo,
 rviz has a very different purpose— unlike Gazebo, which shows the reality of the simulated world, rviz shows
 the robot's *perception* of its world, whether real or simulated. So while Gazebo won't be used with your
-real Jackal, rviz is used with both.
+real Dingo, rviz is used with both.
 
 .. Note::
 
@@ -89,7 +89,7 @@ real Jackal, rviz is used with both.
   Make sure to run ``source devel/setup.bash`` when opening the new terminal.
 
 You can using the following launch invocation to start rviz with a pre-cooked configuration suitable for
-visualizing any standard Jackal config:
+visualizing any standard Dingo config:
 
 .. code-block:: bash
 
