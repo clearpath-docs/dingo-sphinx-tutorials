@@ -1,7 +1,7 @@
 dingo_description Package
 ===========================
 
-The jackal_description package is the URDF robot description for Dingo
+The dingo_description package is the URDF robot description for Dingo
 
 .. _Source: https://github.com/dingo-cpr/dingo
 
