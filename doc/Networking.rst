@@ -1,55 +1,48 @@
 Setting Up Networking
 ======================
 
-Dingo is equipped with a combination Wifi + Bluetooth wireless module. On currently-shipping units, this
-is an `Intel Centrino Advanced-N 6235`__. If this is your first unboxing, ensure that Dingo's wireless
-antennas are firmly screwed on to the chassis.
-
-.. _Centrino: http://www.intel.com/content/www/us/en/wireless-products/centrino-advanced-n-6235.html
-__ Centrino_
-
 First Connection
 -----------------
 
-In order to set Dingo up to connect to your own wireless network, you will first need to access the Dingo's computer from you computer over ``ssh``:
+In order to set up Dingo to connect to your own wireless network, you will first need to ``ssh`` access Dingo's computer from you computer over a wired connection:
 
 1. Configure your computer to have a static IP address on the ``192.168.131.x`` subnet, e.g. ``192.168.131.100``.
 
 2. Connect an ethernet cable between Dingo's computer and your computer.
 
-3. ``ssh`` into Dingo's computer from your computer. In terminal, run:
+3. ``ssh`` into Dingo's computer from your computer. In your computer's terminal, run:
 
 .. code-block:: bash
 
     ssh administrator@192.168.131.1
 
-The default password is ``clearpath``. You should now be logged into Dingo as the administrator user.
+4. Enter the default password ``clearpath``. You should now be logged into Dingo as the ``administrator`` user.
 
 Changing the Default Password
 ------------------------------
 
 .. Note::
 
-  All Clearpath robots ship from the factory with their login password set to ``clearpath``.  Upon receipt of your robot we recommend changing the password.
+  All Clearpath robots ship from the factory with their login password set to ``clearpath``. Upon receipt of your robot we recommend changing the password.
 
-To change the password to log into your robot, you can use the ``passwd`` command. In terminal, run:
+1. To change the password to log into your Dingo, you can use the ``passwd`` command. In Dingo's computer's terminal, run:
 
 .. code-block:: bash
 
   passwd
 
-This will prompt you to enter the current password, followed by the new password twice.  While typing the passwords in the ``passwd`` prompt there will be no visual feedback (e.g. "*" characters).
+2. You will be prompted to enter the current password, followed by the new password twice. While typing the passwords in the ``passwd`` prompt there will be no visual feedback (e.g. "*" characters).
 
-To further restrict access to your robot you can reconfigure the robot's ``ssh`` service to disallow logging in with a password and require ``ssh`` certificates to log in.  This_ tutorial covers how to configure ``ssh`` to disable password-based login.
+To further restrict access to your Dingo, you can reconfigure the Dingo's ``ssh`` service to disallow logging in with a password and require ``ssh`` certificates to log in.  This_ tutorial covers how to configure ``ssh`` to disable password-based login.
 
 .. _This: https://linuxize.com/post/how-to-setup-passwordless-ssh-login/
 
 Connecting to Wifi Access Point
 --------------------------------
 
-Dingo uses ``netplan`` for configuring its wired and wireless interfaces. After accessing Dingo's computer from your computer, you can configure ``netplan`` so that Dingo can connect to your own wireless network:
+Dingo uses ``netplan`` for configuring its wired and wireless interfaces. You can configure ``netplan`` so that Dingo's computer can connect to your own wireless network:
 
-1. Create the file ``/etc/netplan/60-wireless.yaml``.
+1. In Dingo's computer's terminal, create the file ``/etc/netplan/60-wireless.yaml``.
 
 2. Populate the file ``/etc/netplan/60-wireless.yaml`` with the following:
 
@@ -72,13 +65,17 @@ Dingo uses ``netplan`` for configuring its wired and wireless interfaces. After 
           dhcp4-overrides:
             send-hostname: true
 
-3. Save the file ``/etc/netplan/60-wireless.yaml``. You will then need to apply your new ``netplan`` configuration and bring up your wireless connection. In terminal, run:
+3. Modify the variables in the file ``/etc/netplan/60-wireless.yaml`` with the details of your wireless network.
+
+4. Save the file ``/etc/netplan/60-wireless.yaml``. 
+
+5. Apply your new ``netplan`` configuration and bring up your wireless connection. In Dingo's computer's terminal, run:
 
 .. code-block:: bash
 
     sudo netplan apply
 
-4. Verify that Dingo successfully connected to your wireless network. In terminal, run:
+6. Verify that Dingo successfully connected to your wireless network. In Dingo's computer's terminal:
 
 .. code-block:: bash
 
@@ -89,49 +86,47 @@ This will show all active connections and their IP addresses, including the conn
 Remote ROS Connection
 ---------------------
 
-To use ROS desktop tools, you'll need your computer to be able to connect to Dingo's ROS master. This can be a
-tricky process, but we've tried to make it as simple as possible.
+It is useful to connect your computer to the Dingo's ROS master, particularly if you want to use ROS desktop tools to interface with the Dingo:
 
-In order for the ROS tools on your computer to talk to Dingo, they need to know two things:
+1. Ensure both your computer and Dingo's computer are connected to the same wireless network. This process will also work for a wired connection, but for the purposes of establishing a remote ROS connection, it makes sense to use a wireless connection.
 
-- How to find the ROS master, which is set in the ``ROS_MASTER_URI`` environment variable, and
-- How processes on the other computer can find *your computer*, which is the ``ROS_IP`` environment variable.
-
-The suggested pattern is to create a file in your home directory called ``remote-dingo.sh`` with the following
-contents:
+2. On your computer, set the ``ROS_MASTER_URI`` and ``ROS_IP`` environment variables. The ``ROS_MASTER_URI`` environment variable tells your computer how to find the ROS master on the Dingo's computer. The ``ROS_IP`` environment variable tells processes on the Dingo's computer how to find your computer. In your computer's terminal, create a script in your computer's home directory called ``remote-Dingo.sh`` with the following contents:
 
 .. code-block:: bash
 
-    export ROS_MASTER_URI=http://cpr-dingo-0001:11311  # Dingo's hostname
-    export ROS_IP=10.25.0.102                          # Your laptop's wireless IP address
+    export ROS_MASTER_URI=http://<Dingo_HOSTNAME>:11311  # Dingo's computer's hostname
+    export ROS_IP=<COMPUTER_IP>                             # Your computer's wireless IP address
 
-If your network doesn't already resolve Dingo's hostname to its wireless IP address, you may need to add
-a corresponding line to your computer's ``/etc/hosts`` file:
-
-.. code-block:: bash
-
-    10.25.0.101 cpr-dingo-0001
-
-Then, when you're ready to communicate remotely with Dingo, you can source that script like so, thus defining
-those two key environment variables in the present context.
+3. If your network doesn't already resolve Dingo's computer's hostname to its wireless IP address, you may need to add a corresponding line to your computer's ``/etc/hosts`` file:
 
 .. code-block:: bash
 
-    source remote-dingo.sh
+    <Dingo_IP> <Dingo_HOSTNAME>
 
-Now, when you run commands like ``rostopic list``, ``rostopic echo``, ``rosnode list``, and others, the output
-you see should reflect the activity on Dingo's ROS master, rather than on your own machine. Once you've
-verified the basics (list, echo) from the prompt, try launching some of the standard visual ROS tools:
+4. When ready to communicate remotely with Dingo's computer from your computer, you can source the ``remote-Dingo.sh`` script; thus, defining those two key environment variables in the present context. In your computer's terminal, run:
 
 .. code-block:: bash
 
-    roslaunch dingo_viz view_robot.launch
+    source remote-Dingo.sh
+
+5. You should be able to now be able to access DingoS's ROS data from your computer, such as the list of ROS nodes, the list of ROS topics, the ROS messages being published on ROS topics, and the frequencies/rates at which the ROS messages are being published at. In terminal on your computer, run:
+
+.. code-block:: bash
+
+    rosnode list
+    rostopic list
+    rostopic hz <ROS_TOPIC>
+    rostopic echo <ROS_TOPIC>
+
+6. Once you've verified the basics from the prompt, try launching some of the standard visual ROS tools. In terminal on your computer, run:
+
+.. code-block:: bash
+
+    roslaunch Dingo_viz view_robot.launch
     rosrun rqt_robot_monitor rqt_robot_monitor
     rosrun rqt_console rqt_console
 
-If there are particular :roswiki:`rqt` widgets you find yourself using a lot, you may find it an advantage to dock them together
-and then export this configuration as the default RQT perspective. Then, to bring up your standard GUI, you can simply
-run:
+If there are particular :roswiki:`rqt` widgets you find yourself using a lot, you may find it an advantage to dock them together and then export this configuration as the default RQT perspective. Then, to bring up your standard GUI, in terminal on your computer, run:
 
 .. code-block:: bash
 
@@ -140,43 +135,39 @@ run:
 Configuring Network Bridge
 ---------------------------
 
-Dingo is configured to bridge its physical ethernet ports together.  This allows any ethernet port to be used as a
-connection to the internal ``192.168.131.1/24`` network -- for connecting sensors, diagnostic equipment, or
-manipulators -- or for connecting the robot to the internet for the purposes of installing updates.
+Dingo is configured to bridge its physical ethernet ports together. This allows any ethernet port to be used as a connection to the internal ``192.168.131.1/24`` network for connecting sensors, diagnostic equipment, or manipulators, or for connecting the Dingo to the internet for the purposes of installing updates.
 
-Netplan is the default network configuration tool for Ubuntu 18.04 onward.  Instead of using the ``/etc/network/interfaces``
-file, as was done in Ubuntu 16.04 and earlier, netplan uses YAML-formatted files located in ``/etc/netplan``.  The
-default configuration file, ``/etc/netplan/50-clearpath-bridge.yaml``, is below:
+In the unlikely event you must modify Dingo's ethernet bridge, you can do so by editing the configuration file found at ``/etc/netplan/50-clearpath-bridge.yaml``:
 
 .. code-block:: yaml
 
-    # /etc/netplan/50-clearpath-bridge.yaml
+    # Configure the wired ports to form a single bridge
+    # We assume wired ports are en* or eth*
+    # This host will have address 192.168.131.1
     network:
     version: 2
     renderer: networkd
     ethernets:
-      # bridge all wired interfaces together on 192.168.131.x
-      bridge_eth:
-        dhcp4: no
-        dhcp6: no
-        match:
-          name: eth*
-      bridge_en:
-        dhcp4: no
-        dhcp6: no
-        match:
-          name: en*
-
+    bridge_eth:
+      dhcp4: no
+      dhcp6: no
+      match:
+        name: eth*
+    bridge_en:
+      dhcp4: no
+      dhcp6: no
+      match:
+        name: en*
     bridges:
-      br0:
-        dhcp4: yes
-        dhcp6: no
-        interfaces: [bridge_eth, bridge_en]
-        addresses:
-          - 192.168.131.1/24
+    br0:
+      dhcp4: yes
+      dhcp6: no
+      interfaces: [bridge_en, bridge_eth]
+      addresses:
+        - 192.168.131.1/24
 
-To enable network configuration using netplan you must install the ``netplan.io`` package:
+This file will create a bridged interface called ``br0`` that will have a static address of 192.168.131.1, but will also be able to accept a DHCP lease when connected to a wired router. By default, all network ports named ``en*`` and ``eth*`` are added to the bridge. This includes all common wired port names, such as: ``eth0``, ``eno1``, ``enx0123456789ab``, ``enp3s0``, etc.
 
-.. code-block:: bash
+To include/exclude additional ports from the bridge, edit the ``match`` fields, or add additional ``bridge_*`` sections with their own ``match`` fields, and add those interfaces to the ``interfaces: [bridge_en, bridge_eth]`` line near the bottom of the file.
 
-    sudo apt-get install netplan.io
+We do not recommend changing the static address of the bridge to be anything other than ``192.168.131.1``; changing this may cause sensors that communicate over ethernet (e.g. lidars, cameras, GPS arrays) from working properly.
