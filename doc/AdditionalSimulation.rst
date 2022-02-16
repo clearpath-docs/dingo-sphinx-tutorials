@@ -77,7 +77,7 @@ You should see Dingo spawn in the office world, as pictured.  You can see the co
 .. image:: images/office_world.png
   :alt: The layout of Office World
 
-To add sensors to Dingo, use the environment variables described in :doc:`description`.  For example, to simulate
+To add sensors to Dingo, use the environment variables described in :doc:`DescriptionPackage`.  For example, to simulate
 Dingo with a Sick LMS-1xx lidar, run:
 
 .. code-block:: bash
@@ -86,7 +86,7 @@ Dingo with a Sick LMS-1xx lidar, run:
   roslaunch cpr_office_gazebo office_world.launch platform:=dingo
 
 You will see Dingo spawn with a lidar sensor mounted to it, which can be used for navigation as described in
-:doc:`simulation`.
+:doc:`Simulating`.
 
 .. image:: images/dingo_office_laser.png
   :alt: Dingo in Office World with a lidar sensor
@@ -108,7 +108,7 @@ You should see Dingo spawn in the construction world, as pictured.  You can see 
 .. image:: images/construction_world.png
   :alt: The layout of Construction World
 
-To add sensors to Dingo, use the environment variables described in :doc:`description`.  For example, to simulate
+To add sensors to Dingo, use the environment variables described in :doc:`DescriptionPackage`.  For example, to simulate
 Dingo with a Sick LMS-1xx lidar, run:
 
 .. code-block:: bash
@@ -117,4 +117,4 @@ Dingo with a Sick LMS-1xx lidar, run:
   roslaunch cpr_office_gazebo office_construction_world.launch platform:=dingo
 
 You will see Dingo spawn with a lidar sensor mounted to it, which can be used for navigation as described in
-:doc:`simulation`.
+:doc:`Simulating`.

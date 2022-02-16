@@ -72,7 +72,7 @@ It will install the remainder of the required default packages.
 
 .. image:: images/Nano/Software/8.png
 
-Once the OS has been written to the Nano you can follow the instructions in :doc:`Software Setup <software_setup>` to
+Once the OS has been written to the Nano you can follow the instructions in :doc:`Software Setup <Installing>` to
 install Dingo's ROS packages.  Once that is done, continue to step 4:
 
 

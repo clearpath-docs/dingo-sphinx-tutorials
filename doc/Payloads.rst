@@ -66,11 +66,11 @@ Link (front to back)   Dingo-D    Dingo-O
 ``rear_mount``         Yes        Yes
 ====================== ========== ==========
 
-See :doc:`dingo_description <description>` for more information about Dingo's URDF
+See :doc:`dingo_description <DescriptionPackage>` for more information about Dingo's URDF
 
 
 Mobile Manipulation
 --------------------
 
 Dingo can be equipped with a Kinova Gen3 Lite arm to provide mobile manipulation.  Please see
-:doc:`Mobile Manipulation <manipulation>` for more information on how to install and configure the arm.
+:doc:`Mobile Manipulation <Manipulation>` for more information on how to install and configure the arm.

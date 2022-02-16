@@ -1,16 +1,16 @@
-Custom Computer Installation
-==================================
+Installing Custom Computer
+===========================
 
 Some Dingo-O and Dingo-D robots may be sold without a main PC installed.  If you have such a robot, you must provide
 your own PC for the robot.
 
 This section explains the process of physically connecting your computer to Dingo.  For OS and software installation,
-see :doc:`Software Setup <software_setup>`.
+see :doc:`Software Setup <Installing>`.
 
 .. note::
 
-  For installing the OS on an Nvidia Jetson device, see :doc:`Jetson Xavier AGX <jetson_xavier>` or
-  :doc:`Jetson Nano <jetson_nano>`.
+  For installing the OS on an Nvidia Jetson device, see :doc:`Jetson Xavier AGX <JetsonXavier>` or
+  :doc:`Jetson Nano <JetsonNano>`.
 
 
 Supported PCs

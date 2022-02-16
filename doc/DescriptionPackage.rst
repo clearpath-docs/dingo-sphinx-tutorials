@@ -1,19 +1,15 @@
-dingo_description Package
-===========================
+Description Package
+====================
 
-The jackal_description package is the URDF robot description for Dingo
+The ``dingo_description`` package provides a `URDF <http://wiki.ros.org/urdf>`_ model of Dingo. 
 
-.. _Source: https://github.com/dingo-cpr/dingo
+Dingo's URDF model can be visualized in rviz. In terminal, run:
 
-
-Overview
----------
-
-This package provides a `URDF <http://wiki.ros.org/urdf>`_ model of Dingo.  For an example launchfile to use in visualizing this model, see `dingo_viz <http://wiki.ros.org/dingo_viz>`_.
+.. code-block:: bash
+    roslaunch dingo_viz view_model.launch
 
 .. image:: images/dingo_urdf.png
-  :alt: Dingo model
-
+  :alt: Dingo URDF
 
 Mounting Points
 -----------------
@@ -50,7 +46,6 @@ adhesive if required.
 
 .. image:: images/dingo-d-front_bumper_mount.png
   :alt: front_bumper_mount
-
 
 Environment Variables
 -----------------------
@@ -253,7 +248,7 @@ summary of their effects and default values
 Mobile Manipulaton Environment Variables
 -------------------------------------------
 
-The following variables are only supported when the :doc:`mobile manipulation <manipulation>` package is in-use.
+The following variables are only supported when the :doc:`mobile manipulation <Manipulation>` package is in-use.
 
 .. raw:: html
 
@@ -323,5 +318,4 @@ front_laser                           Adds a SICK LMS1xx lidar to the Dingo's fr
 ====================================  ====================================================
 
 .. Note::
-
   Additional configurations coming soon

@@ -15,7 +15,7 @@ other controllers can also be used.
   release both L1 and R1 on the controller to stop the robot immediately.
 
 Dingo will ship with its controller pre-paired, but if you need to re-pair your controller, follow the instructions
-:doc:`here <controllers>`.
+:doc:`here <PairingController>`.
 
 Driving Dingo-D
 ----------------

@@ -1,5 +1,5 @@
 Mobile Manipulation
-======================
+====================
 
 .. image:: images/dingo-manipulation-banner.png
   :alt: Dingo mobile manipulation
@@ -135,7 +135,7 @@ file in it:
   <include filename="$(find dingo_kinova_description)/urdf/dingo_gen3_lite_description.urdf.xacro" />
 
 This will mount the arm to the ``front_b_mount`` link on the robot's chassis.  To apply an offset and/or rotation, set
-the ``DINGO_ARM_XYZ`` and ``DINGO_ARM_RPY`` environment variables.  See :doc:`Dingo Description <description>`
+the ``DINGO_ARM_XYZ`` and ``DINGO_ARM_RPY`` environment variables.  See :doc:`Dingo Description <DescriptionPackage>`
 for a summary of all available environment variables.  To use a different mounting location, set the ``DINGO_ARM_MOUNT``
 environment variable.  The following links are defined in the Dingo-O and Dingo-D URDFs and may be used as mounting points:
 
@@ -187,7 +187,7 @@ launch rviz:
 
 .. note::
 
-  This assumes you have :doc:`configured your network <network>` correctly to allow remote rviz connections
+  This assumes you have :doc:`configured your network <Networking>` correctly to allow remote rviz connections
 
 In rviz, add the Mobile Manipulation topic.  After a moment you should see the robot with the arm in its
 current state.
@@ -209,7 +209,7 @@ a safe, compact position for travel.  Additional poses can be created by running
 
   roslaunch dingo_gen3_lite_moveit_config setup_assistant.launch
 
-Refer to the ``dingo_manupulation`` documentation on GitHub_ for more information on adding additional static poses.
+Refer to the ``dingo_manipulation`` documentation on GitHub_ for more information on adding additional static poses.
 
 .. _GitHub: https://github.com/dingo-cpr/dingo_manipulation
 

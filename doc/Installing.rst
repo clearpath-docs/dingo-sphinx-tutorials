@@ -1,5 +1,5 @@
-Software Setup
-================
+Installing Software
+====================
 
 This section explains how to install Dingo's operating system and ROS packages.  You will need a USB stick of at least
 2GB to create the installation media, a wired internet connection, a monitor, and a keyboard.
@@ -9,8 +9,8 @@ Creating OS installation media
 
 .. note::
 
-  For installing the OS on an Nvidia Jetson device, see :doc:`Jetson Xavier AGX <jetson_xavier>` or
-  :doc:`Jetson Nano <jetson_nano>`.
+  For installing the OS on an Nvidia Jetson device, see :doc:`Jetson Xavier AGX <JetsonXavier>` or
+  :doc:`Jetson Nano <JetsonNano>`.
 
 For Intel-family computers (``amd64`` architecture), you can download Clearpath's official OS installation images
 from `here <https://packages.clearpathrobotics.com/stable/images/latest/>`_.  For Dingo, use the ``bionic-melodic``
@@ -42,7 +42,6 @@ installation has completed.  Once done you can remove the USB stick from the com
 
 On first boot after installing the OS you may be prompted to enter a new hostname for the robot.  You may assign any
 name you like, though it should be unique for every robot you have.
-
 
 Configure the OS
 -----------------

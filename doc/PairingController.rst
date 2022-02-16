@@ -94,7 +94,7 @@ As with ``jstest``, you should see the buttons and axes update as you use the co
 Other Controllers
 ------------------
 
-Both the physical Dingo and :doc:`simulated dingos <simulation>` can be used with other game controllers, including the
+Both the physical Dingo and :doc:`simulated dingos <Simulating>` can be used with other game controllers, including the
 Logitech F710 and Xbox One controller.  These controllers will not pair using the ``ds4drv-pair`` command.
 
 The F710 should pair automatically when powered on and the USB dongle is inserted into an available USB port.  The
