@@ -1,130 +1,99 @@
-Dingo Controller Pairing
-===========================
+Pairing Controller
+===================
 
-Dingo ships with a PS4 controller by default that should already be paired with your robot.
+Remote controllers are used for teleoperation; they allow you to remotely drive the Dingo, whether it is a physical Dingo robot, or a simulated Dingo. The following instructions below detail how to pair different controllers to the Dingo's computer; however, these instructions can also be used to pair these controllers to your own computer.
 
-If the controller does not pair automatically, or if you want to pair a new controller with your computer
-to control Dingo in simulation, follow these steps:
+Logitech F710 Controller
+---------------------------
 
-1. Install ds4drv
--------------------
+.. Note::
 
-Install the ``python-ds4drv`` package on Ubuntu:
+  If your Dingo comes with a Logitech F710 controller, it will be paired already. Simply turn on the Dingo, plug the USB dongle into one of the Dingo's USB ports, and turn on the controller.
+
+To re-pair the Logitech F710 controller or pair a new Logitech F710 controller, plug the controller's USB dongle into the Dingo's computer and turn on the controller. The controller automatically pair.
+
+PS4 Controller
+---------------
+
+.. Note::
+
+  If your Dingo comes with a PS4 controller, it will be paired already. Simply turn on the Dingo and turn on the controller.
+
+To re-pair the PS4 controller or pair a new PS4 controller:
+
+1. Install the ``python-ds4drv`` package if it is not installed already. In terminal, run:
 
 .. code-block:: bash
 
   sudo apt-get install python-ds4drv
 
-2. Put the controller in pairing mode
----------------------------------------
+2. Put the controller in pairing mode. Press and hold the PS and Share buttons on your controller until the LED begins rapidly flashing white.
 
-Press and hold the PS and Share buttons on your controller until the LED begins rapidly flashing white
-
-3. Run ds4drv-pair
---------------------
-
-From the terminal, run
+3. Run the ``ds4drv-pair`` script to pair the controller to the computer. In terminal, run:
 
 .. code-block:: bash
 
   sudo ds4drv-pair
 
-This script will scan for nearby Bluetooth devices, and connect automatically.
+This script will scan for nearby Bluetooth devices, and pair automatically to the controller.
 
-4. Check udev rules
----------------------
+Alternatively, if ``ds4drv-pair`` fails to detect the controller, you can pair the controller using ``bluetoothctl``:
 
-On Dingo, once the controller is paired you should see the file ``/dev/input/ps4`` appear on your system:
+1. Install the ``bluez`` package if it is not installed already. In terminal, run:
+
+.. code-block:: text
+
+  sudo apt-get install bluez
+
+2. Run the ``bluetoothctl`` command. In terminal, run:
+
+.. code-block:: text
+
+  sudo bluetoothctl
+
+3. Use ``bluetoothctl`` to scan for nearby devices. In the bluetooth control application, run:
+
+.. code-block:: text
+
+  agent on
+  scan on
+
+4. Put the controller in pairing mode. Press and hold the PS and Share buttons on your controller until the LED begins rapidly flashing white.
+
+5. The bluetooth scan will display the MAC addresses of nearby devices. Determine which MAC address corresponds to the
+controller and copy it. In the bluetooth control application, run:
+
+.. code-block:: text
+
+  scan off
+  pair <MAC Address>
+  trust <MAC Address>
+  connect <MAC Address>
+
+The controller should now be paired.
+
+6. Once the controller is paired, you should see the file ``/dev/input/ps4`` appear in Dingo's terminal by running:
 
 .. code-block:: bash
 
   ls -l /dev/input
-  [...]
-  crw-rw-rw-+ 1 root root  13,  0 Aug 10 12:16 js0
-  [...]
-  lrwxrwxrwx  1 root root       3 Aug 10 12:16 ps4 -> js0
-  [...]
 
-If you do not see the ps4 device, add the following to ``/etc/udev/rules.d/41-playstation.rules``
+You should see these lines in the output:
+
+.. code-block:: bash
+
+  crw-rw-rw-+ 1 root root  13,  0 Aug 10 12:16 js0
+  lrwxrwxrwx  1 root root       3 Aug 10 12:16 ps4 -> js0
+
+If you do not see the ps4 device, create the ``/etc/udev/rules.d/41-playstation.rules`` file and add the following line:
 
 .. code-block:: text
 
   KERNEL=="js*", SUBSYSTEM=="input", ATTRS{name}=="Wireless Controller", MODE="0666", SYMLINK+="input/ps4"
 
-and then reload udev:
+Afterwards, reload ``udev``:
 
 .. code-block:: bash
 
   sudo udevadm control --reload-rules
   sudo udevadm trigger
-
-5. Test the controller
------------------------
-
-You should now be able to run the following commands to make sure the controller input is working correctly:
-
-.. code-block:: bash
-
-  sudo apt-get install jstest-gtk
-  jstest /dev/input/ps4
-  [...]
-  Axes:  0: -7770  1:-19256  2:-32767  3:     0  4:     0  5:-32767  6:-32767  7:     0 Buttons:  0:off  1:off  2:off  3:off  4:off  5:off  6:off  7:off  8:off  9:off 10:off 11:off 12:off
-
-As you press buttons and move the joysticks you should see the axes and buttons update accordingly.
-
-Finally, open two terminals.  In the first one, run:
-
-.. code-block:: bash
-
-  cd ~/catkin_ws
-  source devel/setup.bash
-  roslaunch dingo_control teleop.launch
-
-And in the second one, run:
-
-.. code-block:: bash
-
-  cd ~/catkin_ws
-  source devel/setup.bash
-  rostopic echo /bluetooth_teleop/joy
-
-As with ``jstest``, you should see the buttons and axes update as you use the controller.
-
-
-Other Controllers
-------------------
-
-Both the physical Dingo and :doc:`simulated dingos <Simulating>` can be used with other game controllers, including the
-Logitech F710 and Xbox One controller.  These controllers will not pair using the ``ds4drv-pair`` command.
-
-The F710 should pair automatically when powered on and the USB dongle is inserted into an available USB port.  The
-controller will show up as ``/dev/input/js*`` where ``*`` is a number starting at zero.
-
-The Xbox One controller can be paired using the ``sudo bluetoothctl`` command:
-
-.. code-block:: bash
-
-  $ sudo bluetoothctl
-  agent on
-  scan on
-
-Place your controller in pairing mode and look for "Xbox One Wireless Controller" to appear.  Copy its MAC address
-(e.g. ``11:22:33:44:55:66``) and enter the following commands into the ``bluetoothct`` prompt, substituting the device's
-MAC address:
-
-.. code-block:: bash
-
-  scan off
-  trust 11:22:33:44:55:66
-  connect 11:22:33:44:55:66
-
-As with the F710, the controller should appear as ``/dev/input/js*`` in Ubuntu.
-
-To use your controller with Dingo, set the ``DINGO_JOY_DEV`` environment variable to point to your device, for example:
-
-.. code-block:: bash
-
-  export DINGO_JOY_DEV=/dev/input/js0
-
-On a physical robot, add the above command to ``/etc/ros/setup/bash``.  On a computer you are using for simulating Dingo,
-add that command to the end of ``$HOME/.bashrc``.
