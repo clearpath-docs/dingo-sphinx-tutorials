@@ -6,6 +6,7 @@ The ``dingo_description`` package provides a `URDF <http://wiki.ros.org/urdf>`_ 
 Dingo's URDF model can be visualized in rviz. In terminal, run:
 
 .. code-block:: bash
+
     roslaunch dingo_viz view_model.launch
 
 .. image:: images/dingo_urdf.png

@@ -51,14 +51,14 @@ On the physical Dingo robot's computer:
 
 6. Once the computer turns off, remove the USB drive and turn on the computer. It will now be running your fresh installation of Ubuntu 20.04 (Focal) with ROS Noetic, as well as your Dingo-specific packages.
 
-7. The Dingo bringup service must be configured. In terminal, run:
+7. Install Dingo's ``robot_upstart`` job and configure the Dingo bringup service, so that ROS will launch each time the robot starts. In terminal, run:
 
 .. code-block:: bash
 
   rosrun dingo_bringup install
   sudo systemctl daemon-reload
 
-8. Finally, start ROS. In terminal, run:
+8. Finally, start ROS for the first time. In terminal, run:
 
 .. code-block:: bash
   
@@ -102,14 +102,14 @@ After the Dingo's computer is configured to use Clearpath's debian package repos
 
     sudo apt-get install ros-noetic-dingo-robot
 
-2. The Dingo bringup service must be configured. In terminal, run
+2. Install Dingo's ``robot_upstart`` job and configure the Dingo bringup service, so that ROS will launch each time the robot starts. In terminal, run:
 
 .. code-block:: bash
 
   rosrun dingo_bringup install
   sudo systemctl daemon-reload
 
-3. Finally, start ROS. In terminal, run:
+3. Finally, start ROS for the first time. In terminal, run:
 
 .. code-block:: bash
   
@@ -119,7 +119,6 @@ Installing Desktop Software
 ----------------------------
 
 It is useful to install Dingo's software on your computer for the purpose of interfacing with the physical Dingo robot and/or to run simulations of Dingo.
-
 
 If you are installing Dingo's software on your computer, you will first need to ensure that your computer is running Ubuntu 20.04 (Focal) and ROS Noetic.
 
