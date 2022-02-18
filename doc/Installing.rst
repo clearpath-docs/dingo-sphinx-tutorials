@@ -1,156 +1,130 @@
-Installing Software
-====================
-
-This section explains how to install Dingo's operating system and ROS packages.  You will need a USB stick of at least
-2GB to create the installation media, a wired internet connection, a monitor, and a keyboard.
-
-Creating OS installation media
--------------------------------
+Installing Dingo Software
+=============================
 
 .. note::
 
-  For installing the OS on an Nvidia Jetson device, see :doc:`Jetson Xavier AGX <JetsonXavier>` or
-  :doc:`Jetson Nano <JetsonNano>`.
+  The physical Dingo robot comes pre-configured with ROS and the necessary Dingo packages already installed; therefore, you will only need to follow the instructions below if you are re-installing software on the Dingo.
 
-For Intel-family computers (``amd64`` architecture), you can download Clearpath's official OS installation images
-from `here <https://packages.clearpathrobotics.com/stable/images/latest/>`_.  For Dingo, use the ``bionic-melodic``
-image.
+There are three ways to install Dingo software on the physical Dingo robot.
 
-Use unetbootin, or a similar tool, to write the ISO image to a USB memory stick.
+The first two ways are using the Clearpath Robotics ISO image, and using Debian (``.deb``) packages. These two ways are covered in this section.
 
-.. image:: images/unetbootin.png
+The third way is installing from source by directly cloning Clearpath Robotics Github repositories and building them in your ROS (``catkin``) workspace; however, this way is not recommended and will not be covered in this section.
 
-.. warning::
+Installing with ISO Image
+--------------------------
 
-  The ISOs currently available from Clearpath are intended to boot into Legacy mode and do not support UEFI.  You may
-  need to configure your computer's BIOS to use legacy boot.
+.. Warning::
 
+  Installing with the Clearpath Robotics ISO image will completely wipe data on the Dingo's computer, since the ISO image will install Ubuntu 20.04 (Focal), ROS Noetic, and Dingo-specific packages.
 
-Install the OS
----------------
+.. note::
+  The Clearpath Robotics ISO image only targets Intel-family computers (``amd64`` architecture). If your Dingo runs on an Nvidia Jetson computer, see :doc:`Jetson Xavier AGX <JetsonXavier>` or :doc:`Jetson Nano <JetsonNano>`.
 
-Connect Dingo's PC to the internet using an ethernet cable and connect a monitor and keyboard.  Insert the USB stick
-you configured in the previous step and power on the PC.
+If you are installing Dingo software on a physical Dingo robot through the Clearpath Robotics ISO image, you will first need a USB drive of at least 2GB to create the installation media, an ethernet cable, a monitor, and a keyboard.
+
+You can download the Ubuntu 20.04 (Focal) ROS Noetic ISO image from `here <https://packages.clearpathrobotics.com/stable/images/latest/noetic-focal/>`_.
+
+On a separate computer:
+
+1. Download the ``.iso`` file from the link above.
+
+2. Insert the USB drive.
+
+3. Write the downloaded ``.iso`` file to the USB drive using a software such as ``Rufus``, ``Etcher``, or ``UNetbootin``. This will erase all data already on the USB drive, so make sure you have backed up anything important!
+
+On the physical Dingo robot's computer:
+
+1. Ensure that it is turned off.
+
+2. Connect it to the internet via the ethernet cable.
+
+3. Insert the newly formatted USB drive.
+
+4. Turn it on and choose to begin the installation process. The installer should run automatically. 
 
 .. note::
 
-  You may need to configure your PC's BIOS to prioritize booting from the USB device.  On most common motherboards,
-  pressing ``delete`` during the initial startup will open the BIOS for configuration.
+  You may need to configure the computer's BIOS to prioritize booting from the USB drive. On most common motherboards, pressing ``delete`` during the initial startup will open the BIOS for configuration.
 
-Installing the OS should require minimal user interaction.  The computer will automatically power off when the
-installation has completed.  Once done you can remove the USB stick from the computer.
+5. Step through any prompts that come up. Make sure you select the installation option corresponding to the Dingo, and give the Dingo an appropriate hostname. The computer will turn off automatically when the installation completes.
 
-On first boot after installing the OS you may be prompted to enter a new hostname for the robot.  You may assign any
-name you like, though it should be unique for every robot you have.
+6. Once the computer turns off, remove the USB drive and turn on the computer. It will now be running your fresh installation of Ubuntu 20.04 (Focal) with ROS Noetic, as well as your Dingo-specific packages.
 
-Configure the OS
------------------
-
-.. note::
-
-  If you installed the OS using the official Clearpath ISO you may skip this section.  If you are using an Nvidia Jetson,
-  Raspberry Pi, or installed Ubuntu 18.04 using a normal Desktop or Server installation image from Canonical you will
-  need to do some additional configuration, described below:
-
-First, configure ``apt`` to include the ROS and Clearpath package servers by running the following commands:
-
-.. code-block:: bash
-
-  sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-  sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-  wget https://packages.clearpathrobotics.com/public.key -O - | sudo apt-key add -
-  sudo sh -c 'echo "deb https://packages.clearpathrobotics.com/stable/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/clearpath-latest.list'
-  sudo apt-get update
-  sudo apt-get install python-rosdep ros-melodic-catkin
-  sudo rosdep init
-  sudo wget https://raw.githubusercontent.com/clearpathrobotics/public-rosdistro/master/rosdep/50-clearpath.list -O /etc/ros/rosdep/sources.list.d/50-clearpath.list
-  rosdep update
-  echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
-  source ~/.bashrc
-
-Dingo is configured to use the ``192.168.131.*`` network to address the MCU and any sensors you connect via ethernet.  To
-accomplish this, you must run the following commands:
-
-.. code-block:: bash
-
-  sudo apt-get install bridge-utils ifupdown bluez-tools
-  sudo nano /etc/network/interfaces
-
-Copy and paste the following into ``/etc/network/interfaces`` and save the file:
-
-.. code-block::
-
-  auto lo br0 br0:0
-  iface lo inet loopback
-
-  # Bridge together physical ports on machine, assign standard Clearpath Robot IP.
-  iface br0 inet static
-    bridge_ports regex (eth.*)|(en.*)
-    address 192.168.131.1
-    netmask 255.255.255.0
-    bridge_maxwait 0
-
-  # Also seek out DHCP IP on those ports, for the sake of easily getting online,
-  # maintenance, ethernet radio support, etc.
-  iface br0:0 inet dhcp
-
-For managing the robot's wireless network, we recommend installing ``wicd-curses``:
-
-.. code-block:: bash
-
-  sudo apt-get install wicd-curses
-
-Run ``wicd-curses`` and press ``shift + p`` to open the preferences.  Remove the wired interface; the wired interface is
-already configured using ``/etc/network/interfaces`` and allowing wicd to control it may cause problems with the network
-bridge.
-
-Install the Dingo packages:
-
-.. code-block:: bash
-
-  sudo apt-get install ros-melodic-dingo-robot
-
-You may optionally install the Dingo desktop and simulation packages as well, though these are generally not needed
-on the robot:
-
-.. code-block:: bash
-
-  sudo apt-get install ros-melodic-dingo-desktop ros-melodic-dingo-simulator
-
-
-Install Dingo Software
------------------------
-
-Once the packages have been installed, the Dingo bringup service must be configured.  Run
+7. The Dingo bringup service must be configured. In terminal, run:
 
 .. code-block:: bash
 
   rosrun dingo_bringup install
   sudo systemctl daemon-reload
 
-Before launching the ``ros`` service, make sure to configure ``/etc/ros/setup.bash`` correctly.  Most importantly,
-you should add the following if you have a Dingo-O:
+8. Finally, start ROS. In terminal, run:
 
 .. code-block:: bash
-
-  export DINGO_OMNI=1
-
-If you have a Dingo-D, instead you may add:
-
-.. code-block:: bash
-
-  export DINGO_OMNI=0
-
-Save ``/etc/ros/setup.bash`` and run
-
-.. code-block:: bash
-
+  
   sudo systemctl start ros
 
-If you need to restart ROS, you can run
+Installing with Debian Packages
+--------------------------------
+
+If you are installing Dingo software on a physical Dingo robot through Debian packages, you will first need to ensure that the Dingo robot's computer is running Ubuntu 20.04 (Focal) and ROS Noetic.
+
+**Add Clearpath Debian Package Repository**
+
+Before you can install the Dingo packages, you need to configure Ubuntu's APT package manager to
+add Clearpath's package server:
+
+1. Install the authentication key for the packages.clearpathrobotics.com repository. In terminal, run:
 
 .. code-block:: bash
 
-  sudo systemctl restart ros
+    wget https://packages.clearpathrobotics.com/public.key -O - | sudo apt-key add -
 
-at any time.
+2. Add the debian sources for the repository. In terminal, run:
+
+.. code-block:: bash
+
+    sudo sh -c 'echo "deb https://packages.clearpathrobotics.com/stable/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/clearpath-latest.list'
+
+3. Update your computer's package cache. In terminal, run:
+
+.. code-block:: bash
+
+    sudo apt-get update
+
+**Installing Debian Packages**
+
+After the Dingo's computer is configured to use Clearpath's debian package repository, you can install the Dingo packages. 
+
+1. On a physical Dingo robot, you should only need the Dingo robot packages. In terminal, run:
+
+.. code-block :: bash
+
+    sudo apt-get install ros-noetic-dingo-robot
+
+2. The Dingo bringup service must be configured. In terminal, run
+
+.. code-block:: bash
+
+  rosrun dingo_bringup install
+  sudo systemctl daemon-reload
+
+3. Finally, start ROS. In terminal, run:
+
+.. code-block:: bash
+  
+  sudo systemctl start ros
+
+Installing Desktop Software
+----------------------------
+
+It is useful to install Dingo's software on your computer for the purpose of interfacing with the physical Dingo robot and/or to run simulations of Dingo.
+
+
+If you are installing Dingo's software on your computer, you will first need to ensure that your computer is running Ubuntu 20.04 (Focal) and ROS Noetic.
+
+1. On your computer, you should only need the Dingo desktop packages. In terminal, run:
+
+.. code-block :: bash
+
+  sudo apt-get install ros-noetic-dingo-desktop ros-noetic-dingo-simulator
