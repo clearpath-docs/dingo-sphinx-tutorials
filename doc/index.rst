@@ -49,6 +49,8 @@ The remainder of the subjects are more applicable to the real robot, and have to
     Driving
     Simulating
     Navigating
+    ExtendingStartup
+    KeepingUpdated
 
 .. toctree::
     :maxdepth: 0

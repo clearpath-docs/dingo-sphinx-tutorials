@@ -1,6 +1,12 @@
 Navigating with Dingo
 ======================
 
+To get all Navigation related files for Dingo, run:
+
+.. code-block:: bash
+
+    sudo apt-get install ros-noetic-dingo-navigation
+
 Below are the example launch files for three different configurations for navigating Dingo:
 
 - Navigation in an odometric frame without a map, using only :roswiki:`move_base`.
