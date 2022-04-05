@@ -72,33 +72,20 @@ It will install the remainder of the required default packages.
 
 .. image:: images/Nano/Software/8.png
 
-Once the OS has been written to the Nano you can follow the instructions in :doc:`Software Setup <software_setup>` to
-install Dingo's ROS packages.  Once that is done, continue to step 4:
+Once the OS has been written to the Nano, log into it and run the following commands to configure it for use with Dingo:
 
+.. code-block:: bash
 
-Step 4: Controller Pairing
------------------------------
+    wget -c https://raw.githubusercontent.com/clearpathrobotics/ros_computer_setup/main/install.sh && bash install.sh
 
-If you would like to pair a PS4 controller to drive Dingo, hold down the PS and Share buttons on the controller until
-the light bar starts to flash. In a terminal on the Dingo, run ``bluetoothctl`` and then run the following commands:
+.. note::
 
-.. code-block:: text
+    If ``curl`` is not installed on your Jetson by default you can install it by running ``sudo apt-get install curl``
 
-    agent on
-    scan on
-    < look for the MAC address of your controller; it will be identified by "Wireless Controller" or similar text >
-    scan off
-    pair <MAC ADDRESS>
-    trust <MAC ADDRESS>
-    connect <MAC ADDRESS>
-    < ctrl + d to exit >
+.. image:: images/Nano/Software/9.png
 
+These commands will download and install ROS along with the necessary APT packages to get Dingo up and running.  Depending on your network speed it may take a long time for everything to install.  Reboot the Nano after these commands are done to complete the configuration.
 
-Step 5: Connecting the MCU
-----------------------------
+When the Jetson starts up again, it should be connected to the Dingo. To see that the Dingo is connected by opening a terminal and executing "rostopic echo /status". You should see a 1hz message containing the Dingo's diagnostic information.
 
-Once all of the software is installed, make sure that Dingo's MCU is connected to the ethernet port on the Nano.
-Because the Nano only has a single ethernet port you may find it convenient to install a network switch so that any
-ethernet-based sensors can be easily connected.  Alternatively, one or more USB to Ethernet adapters may be used to
-add additiona; ethernet ports.  Make sure to configure the network so that any additional USB dongles are part of
-the network bridge.
+Your Jetson Nano should now be configured to operate as the Dingo's main PC.
