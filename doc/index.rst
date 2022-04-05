@@ -71,6 +71,13 @@ The remainder of the subjects are more applicable to the real robot, and have to
 .. toctree::
     :titlesonly:
     :hidden:
+    :caption: Testing Dingo
+
+    DingoTests
+
+.. toctree::
+    :titlesonly:
+    :hidden:
     :caption: Other
 
     AdditionalSimulation
