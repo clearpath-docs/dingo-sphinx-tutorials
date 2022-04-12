@@ -31,7 +31,7 @@ CAN Bus Test
 
 The ``check_can_bus_interface`` is useful in verifying the Puma motors and encoders are sending and receiving data between the Dingo's PC, via the CAN bus interface. 
 
-This script verifies that the `can0` interface is detected and activated, then proceeds to check the output of ``candump`` to verify that good CAN packets are being transmitted. Based on the Dingo configuration, either Dingo-D or Dingo-O, this script will know to check for good CAN packets from 2 or 4 encoders, respectively.
+This script verifies that the ``can0`` interface is detected and activated, then proceeds to check the output of ``candump`` to verify that good CAN packets are being transmitted. Based on the Dingo configuration, either Dingo-D or Dingo-O, this script will know to check for good CAN packets from 2 or 4 encoders, respectively.
 
 To run the ``check_can_bus_interface`` script on a Dingo robot, open terminal and run:
 
