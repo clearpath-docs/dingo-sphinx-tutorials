@@ -69,6 +69,13 @@ Additional topics coming soon!
 .. toctree::
     :titlesonly:
     :hidden:
+    :caption: Testing Dingo
+
+    DingoTests
+    
+.. toctree::
+    :titlesonly:
+    :hidden:
     :caption: Dingo Packages
 
     description
