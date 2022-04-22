@@ -3,6 +3,12 @@ Dingo Tests
 
 Dingo robots come preinstalled with a set of test scripts as part of the ``dingo_tests`` ROS package, which can be run to verify robot functionality at the component and system levels. 
 
+If your Dingo does not have the ``dingo_tests`` ROS package installed already, you can manually install it by opening terminal and running:
+
+.. code-block:: bash
+
+  sudo apt-get install ros-melodic-dingo-tests
+
 ROS Tests
 ----------
 
