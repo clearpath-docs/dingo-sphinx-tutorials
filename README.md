@@ -1,5 +1,12 @@
 # Tutorial for Dingo
 
+---
+
+**Note:**
+These tutorials have been superceded. Find the latest Boxer tutorials at [docs.clearpathrobotics.com](https://docs.clearpathrobotics.com/docs/robots/dingo/tutorials_dingo).
+
+---
+
 ## Setup
     sudo apt-get install texlive-full texlive-xetex texmaker python-pip latexmk
     pip3 install sphinx

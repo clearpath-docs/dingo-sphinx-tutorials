@@ -1,6 +1,10 @@
 Dingo Tutorials
 ================
 
+.. Warning::
+
+  These tutorials have been superceded. Find the latest Dingo tutorials at `docs.clearpathrobotics.com <https://docs.clearpathrobotics.com/docs/robots/dingo/tutorials_dingo>`_.
+
 .. image:: images/dingo_banner.png
     :alt: Dingo Robot
 
