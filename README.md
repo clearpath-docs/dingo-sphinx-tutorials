@@ -3,7 +3,7 @@
 ---
 
 **Note:**
-These tutorials have been superceded. Find the latest Boxer tutorials at [docs.clearpathrobotics.com](https://docs.clearpathrobotics.com/docs/robots/dingo/tutorials_dingo).
+These tutorials have been superceded. Find the latest Dingo tutorials at [docs.clearpathrobotics.com](https://docs.clearpathrobotics.com/docs/robots/dingo/tutorials_dingo).
 
 ---
 
